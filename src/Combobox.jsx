@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Autocomplete from './Autocomplete';
-import Dropdown from './Dropdown';
-import Autosize from './Autosize';
-import renderChild from './utils/renderChild';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import Autocomplete from "./Autocomplete.jsx";
+import Dropdown from "./Dropdown.jsx";
+import Autosize from "./Autosize.jsx";
+import renderChild from "./utils/renderChild.js";
 
 const CARET_PADDING = 15;
 

@@ -1,82 +1,110 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var SimpleProgressPlugin = require('webpack-simple-progress-plugin');
-
-var config = {
-  devServerPort: 3000
-};
-
-var isProduction = process.env.NODE_ENV === 'production';
+const path = require("path");
+const webpack = require("webpack");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = {
-  devtool: 'eval',
-  entry: isProduction
-    ? ['./demo/src/js/index']
-    : [
-        'webpack-dev-server/client?http://localhost:' + config.devServerPort,
-        'webpack/hot/only-dev-server',
-        './demo/src/js/index'
-      ],
+  entry: [path.join(__dirname, "./src/index.js")],
   output: {
-    path: path.resolve(__dirname, 'demo/dist'),
-    filename: 'js/bundle.js'
+    path: __dirname + "/lib",
+    filename: "index.js",
+    libraryTarget: "umd",
+    library: "@fkit/input"
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: 'demo/src/index.html',
-      env: process.env
-    }),
-    new webpack.DefinePlugin({
-      'process.env': [
-        'NODE_ENV',
-        'npm_package_version',
-        'npm_package_name',
-        'npm_package_description',
-        'npm_package_homepage'
-      ].reduce(function(env, key) {
-        env[key] = JSON.stringify(process.env[key]);
-        return env;
-      }, {})
-    }),
-    new webpack.NoErrorsPlugin(),
-    new SimpleProgressPlugin()
-  ].concat(isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]),
-  resolve: {
-    extensions: ['.js', '.jsx'],
-    modules: ['node_modules', path.join(__dirname, 'src')]
+  externals: {
+    react: "react",
+    "react-dom": "react-dom"
   },
+  mode: "production",
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.jsx?$/,
-        loaders: ['babel-loader'],
-        include: [
-          path.join(__dirname, 'src'),
-          path.join(__dirname, 'demo/src/js')
-        ]
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style-loader', 'css-loader?-minimize', 'postcss-loader']
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules|dist)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  modules: false,
+                  targets: {
+                    node: "current"
+                  }
+                }
+              ],
+              ["@babel/preset-react"]
+            ],
+            plugins: [
+              [
+                "@babel/plugin-proposal-decorators",
+                {
+                  legacy: true
+                }
+              ],
+              ["@babel/plugin-syntax-class-properties"],
+              [
+                "@babel/plugin-proposal-class-properties",
+                {
+                  loose: true
+                }
+              ],
+              "@babel/plugin-proposal-export-default-from",
+              "@babel/plugin-transform-runtime"
+            ]
+          }
+        }
       }
     ]
   },
-  devServer: isProduction
-    ? undefined
-    : {
-        contentBase: 'demo/dist',
-        quiet: false,
-        port: config.devServerPort,
-        hot: true,
-        stats: {
-          chunkModules: false,
-          colors: true
-        },
-        historyApiFallback: true
-      },
+  performance: {
+    hints: false
+  },
+  optimization: {
+    namedModules: false,
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        extractComments: false,
+        terserOptions: {
+          cache: true,
+          sourceMap: false,
+          exclude: /fkit\.js/,
+          parse: {
+            ecma: 8
+          },
+          parallel: true,
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2
+          },
+          mangle: {
+            safari10: false
+          },
+          output: {
+            ecma: 6,
+            comments: false,
+            ascii_only: true
+          }
+        }
+      })
+    ]
+  },
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      openAnalyzer: false,
+      reportFilename: "report.html"
+    })
+  ],
   node: {
-    fs: 'empty'
+    fs: "empty",
+    module: "empty"
   }
 };

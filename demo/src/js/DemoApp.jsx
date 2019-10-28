@@ -1,28 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import Col from 'react-bootstrap/lib/Col';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Collapse from 'react-bootstrap/lib/Collapse';
-import Button from 'react-bootstrap/lib/Button';
-import moment from 'moment';
-import countries from './countries';
-import pure from './pure';
+import React from "react";
+import ReactDOM from "react-dom";
+import PageHeader from "react-bootstrap/lib/PageHeader";
+import FormGroup from "react-bootstrap/lib/FormGroup";
+import InputGroup from "react-bootstrap/lib/InputGroup";
+import FormControl from "react-bootstrap/lib/FormControl";
+import ControlLabel from "react-bootstrap/lib/ControlLabel";
+import Col from "react-bootstrap/lib/Col";
+import Glyphicon from "react-bootstrap/lib/Glyphicon";
+import Collapse from "react-bootstrap/lib/Collapse";
+import Button from "react-bootstrap/lib/Button";
+import moment from "moment-mini";
+import countries from "./countries";
+import pure from "./pure";
 
-import Autosize from 'Autosize';
-import Autocomplete from 'Autocomplete';
-import Combobox from 'Combobox';
-import Mask from 'Mask';
-import DatePicker from 'DatePicker';
+import {
+  Autosize,
+  Autocomplete,
+  Combobox,
+  Mask
+} from "../../../build/input.js";
 
-import './bootstrap-input-inline.css';
-import './ie.css';
+import "./bootstrap-input-inline.css";
+import "./ie.css";
 
-import Prefixer from 'inline-style-prefixer';
+import Prefixer from "inline-style-prefixer";
 const prefixerInstance = new Prefixer(window.navigator);
 const prefixer = prefixerInstance.prefix.bind(prefixerInstance);
 
@@ -165,7 +166,7 @@ const ValueInput4 = pure(({ value, onChange }) => (
       <Combobox
         value={value}
         options={countries}
-        dropdownProps={{ style: { width: '100%', position: 'relative' } }}
+        dropdownProps={{ style: { width: "100%", position: "relative" } }}
         onSelect={onChange}
         autocomplete
       >
@@ -216,7 +217,7 @@ const ValueInput5 = pure(({ value, onChange }) => (
     <Col xs={6}>
       <Combobox
         value={value}
-        options={[...countries, 'random-string-' + Math.random()]}
+        options={[...countries, "random-string-" + Math.random()]}
         onSelect={onChange}
         autosize
       >
@@ -327,9 +328,9 @@ const ValueInput7 = pure(({ value, onChange, onUnmaskedValueChange }) => (
     <Col xs={6}>
       <InputGroup
         style={prefixer({
-          display: 'inline-flex',
-          alignItems: 'baseline',
-          fontFamily: 'monospace'
+          display: "inline-flex",
+          alignItems: "baseline",
+          fontFamily: "monospace"
         })}
       >
         <Mask
@@ -356,7 +357,7 @@ const ValueInput7 = pure(({ value, onChange, onUnmaskedValueChange }) => (
             </Autosize>
           )}
         </Mask>
-        <InputGroup.Addon style={{ display: 'block' }}>
+        <InputGroup.Addon style={{ display: "block" }}>
           <Glyphicon glyph="credit-card" />
         </InputGroup.Addon>
       </InputGroup>
@@ -412,9 +413,9 @@ const ValueInput8 = pure(({ value, onChange, onUnmaskedValueChange }) => (
     <Col xs={6}>
       <InputGroup
         style={prefixer({
-          display: 'inline-flex',
-          alignItems: 'baseline',
-          fontFamily: 'monospace'
+          display: "inline-flex",
+          alignItems: "baseline",
+          fontFamily: "monospace"
         })}
       >
         <Mask
@@ -441,7 +442,7 @@ const ValueInput8 = pure(({ value, onChange, onUnmaskedValueChange }) => (
             </Autosize>
           )}
         </Mask>
-        <InputGroup.Addon style={{ display: 'block' }}>
+        <InputGroup.Addon style={{ display: "block" }}>
           <Glyphicon glyph="phone" />
         </InputGroup.Addon>
       </InputGroup>
@@ -489,144 +490,25 @@ const code8 = `
   </FormGroup>
 `;
 
-const ValueInput9 = pure(({ value, onChange }) => (
-  <FormGroup>
-    <Col componentClass={ControlLabel} xs={3}>
-      DatePicker:
-    </Col>
-    <Col xs={6}>
-      <DatePicker
-        value={moment(value || undefined).format('ddd DD/MM/YYYY')}
-        onChange={onChange}
-        onValuePreUpdate={v =>
-          parseInt(v, 10) > 1e6
-            ? moment(parseInt(v, 10)).format('ddd DD/MM/YYYY')
-            : v
-        }
-      >
-        {(inputProps, otherProps, registerInput) => (
-          <FormControl
-            {...inputProps}
-            style={{ ...inputProps.style, fontFamily: 'monospace' }}
-            ref={c => registerInput(ReactDOM.findDOMNode(c))}
-            type="text"
-          />
-        )}
-      </DatePicker>
-    </Col>
-  </FormGroup>
-));
-
-const code9 = `
-  <FormGroup>
-    <Col componentClass={ControlLabel} xs={3}>
-      DatePicker:
-    </Col>
-    <Col xs={6}>
-      <DatePicker
-        value={moment(value || undefined).format('ddd DD/MM/YYYY')}
-        onChange={onChange}
-        // this callback will parse inserted timestamp
-        onValuePreUpdate={v => parseInt(v, 10) > 1e8 ?
-          moment(parseInt(v, 10)).format('ddd DD/MM/YYYY') : v
-        }
-      >
-        {(inputProps, { registerInput }) =>
-          <FormControl
-            {...inputProps}
-            style={{ ...inputProps.style, fontFamily: 'monospace' }}
-            ref={c => registerInput(ReactDOM.findDOMNode(c))}
-            type='text'
-          />
-        }
-      </DatePicker>
-    </Col>
-  </FormGroup>
-`;
-
 let frDatePicker;
-
-const ValueInput10 = pure(({ value, onChange }) => {
-  const frCurrent = moment(value || undefined);
-  frCurrent.locale('fr');
-  const frNow = moment();
-  frNow.locale('fr');
-
-  return (
-    <FormGroup>
-      <Col componentClass={ControlLabel} xs={3}>
-        DatePicker (FR):
-      </Col>
-      <Col xs={6}>
-        <DatePicker
-          value={frCurrent.format('YYYY.MM.DD ddd')}
-          placeholder={frNow.format('YYYY.MM.DD ddd')}
-          pattern="YYYY.MM.DD ddd"
-          onChange={onChange}
-          locale="fr"
-          getInputElement={() => frDatePicker}
-          todayButtonText="aller à aujourd’hui"
-        >
-          <FormControl
-            style={{ fontFamily: 'monospace' }}
-            ref={c => (frDatePicker = ReactDOM.findDOMNode(c))}
-            type="text"
-          />
-        </DatePicker>
-      </Col>
-    </FormGroup>
-  );
-});
-
-const code10 = `
-  const frCurrent = moment(value || undefined);
-  frCurrent.locale('fr');
-  const frNow = moment();
-  frNow.locale('fr');
-
-  // more compact and more magic form
-
-  <FormGroup>
-    <Col componentClass={ControlLabel} xs={3}>
-      DatePicker (FR):
-    </Col>
-    <Col xs={6}>
-      <DatePicker
-        value={frCurrent.format('YYYY.MM.DD ddd')}
-        placeholder={frNow.format('YYYY.MM.DD ddd')}
-        pattern='YYYY.MM.DD ddd'
-        onChange={onChange}
-        locale='fr'
-        getInputElement={() => frDatePicker}
-        todayButtonText='aller à aujourd’hui'
-      >
-        <FormControl
-          style={{ fontFamily: 'monospace' }}
-          ref={c => frDatePicker = ReactDOM.findDOMNode(c)}
-          type='text'
-        />
-      </DatePicker>
-    </Col>
-  </FormGroup>
-`;
 
 export default class DemoApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       countries,
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-      value5: '',
-      value6: 'value--Fiji',
-      value7: '',
-      unmaskedValue7: '',
-      value8: '',
-      unmaskedValue8: '',
-      value9: '',
-      value10: '',
+      value1: "",
+      value2: "",
+      value3: "",
+      value4: "",
+      value5: "",
+      value6: "value--Fiji",
+      value7: "",
+      unmaskedValue7: "",
+      value8: "",
+      unmaskedValue8: "",
+      value9: "",
+      value10: "",
       code1and2open: false,
       code3open: false,
       code4open: false,
@@ -645,7 +527,7 @@ export default class DemoApp extends React.Component {
   }
 
   setDelayedState = () => {
-    this.setState({ value4: 'value--Albania' });
+    this.setState({ value4: "value--Albania" });
   };
 
   lastTime = new Date();
@@ -657,7 +539,7 @@ export default class DemoApp extends React.Component {
         country =>
           country && {
             ...country,
-            text: country.text && country.text + ' ' + Math.random().toFixed(2)
+            text: country.text && country.text + " " + Math.random().toFixed(2)
           }
       )
     });
@@ -694,66 +576,67 @@ export default class DemoApp extends React.Component {
             <div className="form-group">
               <div className="control-label col-xs-3">Autosize (inline):</div>
               <div className="col-xs-6">
-                This text has no default width:{' '}
+                This text has no default width:{" "}
                 <ValueInput1
                   value={this.state.value1}
                   onChange={this.handleValue1Change}
-                />, and this has 100px default width:{' '}
+                />
+                , and this has 100px default width:{" "}
                 <ValueInput2
                   value={this.state.value2}
                   onChange={this.handleValue2Change}
                 />
               </div>
             </div>
-            {this.renderCode(code1and2, 'code1and2open')}
+            {this.renderCode(code1and2, "code1and2open")}
             <ValueInput3
               value={this.state.value3}
               onChange={this.handleValue3Change}
             />
-            {this.renderCode(code3, 'code3open')}
+            {this.renderCode(code3, "code3open")}
             <ValueInput4
               value={this.state.value4}
               onChange={this.handleValue4Change}
             />
-            {this.renderCode(code4, 'code4open')}
+            {this.renderCode(code4, "code4open")}
             <ValueInput5
               value={this.state.value5}
               onChange={this.handleValue5Change}
             />
-            {this.renderCode(code5, 'code5open')}
+            {this.renderCode(code5, "code5open")}
             <ValueInput6
               value={this.state.value6}
               onChange={this.handleValue6Change}
               options={this.state.countries}
               addonAfter={
-                <div style={{ display: 'flex' }}>
-                  <Button onClick={() => this.setState({ value6: '' })}>
+                <div style={{ display: "flex" }}>
+                  <Button onClick={() => this.setState({ value6: "" })}>
                     Reset
                   </Button>
                   <Button
-                    onClick={() => this.setState({ value6: 'value--Andorra' })}
-                    style={{ marginLeft: '2rem' }}
+                    onClick={() => this.setState({ value6: "value--Andorra" })}
+                    style={{ marginLeft: "2rem" }}
                   >
                     Set Andorra
                   </Button>
                   <Button
                     onClick={this.alterCountries}
-                    style={{ marginLeft: '2rem' }}
+                    style={{ marginLeft: "2rem" }}
                   >
                     Alter Options
                   </Button>
                   <Button
                     onClick={this.toggleAsyncAlterCountries}
-                    style={{ marginLeft: '2rem' }}
+                    style={{ marginLeft: "2rem" }}
                   >
                     {this.state.asyncAlterCountries
                       ? `Async Alter On (${this.state.countDown})`
-                      : 'Async Alter Off'}
+                      : "Async Alter Off"}
                   </Button>
                 </div>
               }
             />
-            {this.renderCode(code6, 'code6open')}
+            {this.renderCode(code6, "code6open")}
             <ValueInput7
               value={this.state.value7}
               onChange={this.handleValue7Change}
@@ -765,7 +648,7 @@ export default class DemoApp extends React.Component {
               label="Unmasked value:"
               value={this.state.unmaskedValue7}
             />
-            {this.renderCode(code7, 'code7open')}
+            {this.renderCode(code7, "code7open")}
             <ValueInput8
               value={this.state.value8}
               onChange={this.handleValue8Change}
@@ -777,17 +660,7 @@ export default class DemoApp extends React.Component {
               label="Unmasked value:"
               value={this.state.unmaskedValue8}
             />
-            {this.renderCode(code8, 'code8open')}
-            <ValueInput9
-              value={this.state.value9}
-              onChange={this.handleValue9Change}
-            />
-            {this.renderCode(code9, 'code9open')}
-            <ValueInput10
-              value={this.state.value10}
-              onChange={this.handleValue10Change}
-            />
-            {this.renderCode(code10, 'code10open')}
+            {this.renderCode(code8, "code8open")}
           </form>
         </div>
       </div>
@@ -805,7 +678,7 @@ export default class DemoApp extends React.Component {
             Show code
           </a>
           <Collapse in={this.state[key]}>
-            <pre>{code.replace(/^\n+/, '')}</pre>
+            <pre>{code.replace(/^\n+/, "")}</pre>
           </Collapse>
         </div>
       </div>
@@ -835,13 +708,13 @@ export default class DemoApp extends React.Component {
 
 const styles = {
   wrapper: {
-    height: '100vh',
-    width: '80%',
-    margin: '0 auto'
+    height: "100vh",
+    width: "80%",
+    margin: "0 auto"
   },
   header: {},
   content: {
-    paddingTop: '20px',
-    paddingBottom: '300px'
+    paddingTop: "20px",
+    paddingBottom: "300px"
   }
 };

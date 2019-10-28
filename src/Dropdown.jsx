@@ -1,25 +1,25 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import * as shapes from './shapes';
-import findMatchingTextIndex from './utils/findMatchingTextIndex';
-import * as filters from './filters';
-import InputPopup from './InputPopup';
-import getOptionText from './utils/getOptionText';
-import getOptionLabel from './utils/getOptionLabel';
-import getOptionValue from './utils/getOptionValue';
-import isStatic from './utils/isStatic';
-import DropdownOption from './DropdownOption';
-import createStyling from './createStyling';
-import deprecated from './utils/deprecated';
-import getInput from './utils/getInput';
-import registerInput from './utils/registerInput';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import * as shapes from "./shapes.js";
+import findMatchingTextIndex from "./utils/findMatchingTextIndex.js";
+import * as filters from "./filters";
+import InputPopup from "./InputPopup.jsx";
+import getOptionText from "./utils/getOptionText.js";
+import getOptionLabel from "./utils/getOptionLabel.js";
+import getOptionValue from "./utils/getOptionValue.js";
+import isStatic from "./utils/isStatic.js";
+import DropdownOption from "./DropdownOption.jsx";
+import createStyling from "./createStyling.js";
+import deprecated from "./utils/deprecated.js";
+import getInput from "./utils/getInput.js";
+import registerInput from "./utils/registerInput.js";
 
 function getOptionKey(opt, idx) {
   const value = getOptionValue(opt);
 
   return opt === null
     ? `option-separator-${idx}`
-    : `option-${typeof value === 'string' ? value : getOptionText(opt) + idx}`;
+    : `option-${typeof value === "string" ? value : getOptionText(opt) + idx}`;
 }
 
 function getSiblingIndex(idx, options, next) {
@@ -44,7 +44,7 @@ function getShownOptions(value, options, optionFilters) {
 }
 
 function findOptionIndex(options, option) {
-  return Array.findIndex(options, opt => opt === option);
+  return options.findIndex(opt => opt === option);
 }
 
 function getStateFromProps(props) {
@@ -78,9 +78,9 @@ export default class Dropdown extends PureComponent {
     this.state = getStateFromProps(props);
     this.styling = createStyling(props.theme);
 
-    if (typeof props.onValueChange !== 'undefined') {
+    if (typeof props.onValueChange !== "undefined") {
       deprecated(
-        '`onValueChange` is deprecated, please use `onSelect` instead'
+        "`onValueChange` is deprecated, please use `onSelect` instead"
       );
     }
   }
@@ -96,27 +96,27 @@ export default class Dropdown extends PureComponent {
   static defaultProps = {
     onRenderOption: (styling, opt, highlighted, disabled) =>
       opt !== null ? (
-        <div {...styling('inputEnhancementsOption', highlighted, disabled)}>
+        <div {...styling("inputEnhancementsOption", highlighted, disabled)}>
           {getOptionLabel(opt, highlighted, disabled)}
         </div>
       ) : (
-        <div {...styling('inputEnhancementsSeparator')} />
+        <div {...styling("inputEnhancementsSeparator")} />
       ),
 
     onRenderList: (styling, isActive, listShown, children, header) =>
       listShown && (
         <div
           {...styling([
-            'inputEnhancementsPopup',
-            'inputEnhancementsDropdownPopup'
+            "inputEnhancementsPopup",
+            "inputEnhancementsDropdownPopup"
           ])}
         >
           {header && (
-            <div {...styling('inputEnhancementsListHeader', isActive)}>
+            <div {...styling("inputEnhancementsListHeader", isActive)}>
               {header}
             </div>
           )}
-          <div {...styling('inputEnhancementsListOptions', isActive)}>
+          <div {...styling("inputEnhancementsListOptions", isActive)}>
             {children}
           </div>
         </div>
@@ -125,7 +125,7 @@ export default class Dropdown extends PureComponent {
     onRenderListHeader: (allCount, shownCount, staticCount) => {
       if (allCount - staticCount < 20) return null;
       const allItems = `${allCount - staticCount} ${
-        allCount - staticCount === 1 ? 'item' : 'items'
+        allCount - staticCount === 1 ? "item" : "items"
       }`;
       return allCount === shownCount
         ? `${allItems} found`
@@ -138,7 +138,7 @@ export default class Dropdown extends PureComponent {
       filters.filterByMatchingTextWithThreshold(20),
       filters.sortByMatchingText,
       filters.limitBy(100),
-      filters.notFoundMessage('No matches found'),
+      filters.notFoundMessage("No matches found"),
       filters.filterRedudantSeparators
     ]
   };
@@ -194,7 +194,7 @@ export default class Dropdown extends PureComponent {
   render() {
     const { dropdownProps, onRenderCaret, children } = this.props;
 
-    const value = this.state.value === null ? '' : this.state.value;
+    const value = this.state.value === null ? "" : this.state.value;
 
     return (
       <InputPopup

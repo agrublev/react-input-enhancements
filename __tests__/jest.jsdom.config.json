@@ -1,6 +1,0 @@
-{
-  "testEnvironment": "jsdom",
-  "moduleFileExtensions": ["js", "jsx"],
-  "testRegex": "/__tests__/.*\\.test\\.js$",
-  "setupTestFrameworkScriptFile": "__tests__/jest.jsdom.setup.js"
-}

@@ -1,6 +1,6 @@
 {
   "name": "fkit-input-enhancements",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Set of enhancements for input control (bootstrap-ready)",
   "scripts": {
     "test": "yarn test-jsdom && yarn test-node",

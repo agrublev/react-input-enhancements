@@ -97,11 +97,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: "static",
-      openAnalyzer: false,
-      reportFilename: "report.html"
-    })
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: "static",
+    //   openAnalyzer: false,
+    //   reportFilename: "report.html"
+    // })
   ],
   node: {
     fs: "empty",

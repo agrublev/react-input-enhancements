@@ -16,8 +16,8 @@
     "preversion": "yarn lint && yarn test",
     "version": "yarn build && yarn build-demo && git add -A .",
     "postversion": "git push && git push --tags",
-    "gh": "git subtree push --prefix demo/dist origin gh-pages"
-    "build2": "rm -rf lib && NODE_ENV=production babel src --out-dir lib",
+    "gh": "git subtree push --prefix demo/dist origin gh-pages",
+    "build2": "rm -rf lib && NODE_ENV=production babel src --out-dir lib"
   },
   "main": "lib/index.js",
   "repository": {

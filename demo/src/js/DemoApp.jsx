@@ -13,12 +13,7 @@ import moment from "moment-mini";
 import countries from "./countries";
 import pure from "./pure";
 
-import {
-  Autosize,
-  Autocomplete,
-  Combobox,
-  Mask
-} from "../../../build/input.js";
+import { Autosize, Autocomplete, Combobox, Mask } from "../../../lib/index.js";
 
 import "./bootstrap-input-inline.css";
 import "./ie.css";
